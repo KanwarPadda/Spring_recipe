@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create recipe</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
+    <script src="https://cdn.tiny.cloud/1/dexkp5gsbckfbbufgmqqy736xa0e9dx83uqdmb5f6wpvpbmn/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+        selector: "#recipe",
+        menubar: false,
+        plugins: "lists",
+        toolbar: "undo redo | h1 h2 h3 | bold italic | numlist bullist"
+        });
+  </script>
+</head>
+
+<div th:insert="fragments/nav-bar.html"></div>
+
+<body>
+<div id="recipeCreationForm">
+    <form th:action="@{/recipe/update/{recipeId}(recipeId = ${recipe.id})}" method="POST" enctype="multipart/form-data">
+        <div class="add-recipe">
+            <input class="form-control form-control-lg addrecipe-title" type="text" name="title" th:value="${recipe.title}" placeholder="Recipe title">
+
+            <div class="addrecipe-img">
+                <div class="form-group">
+                    <input type="file" name="file" accept="image/*" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="button" value="delete" class="btn btn-secondary">Delete recipe photo</button>
+                </div>
+            </div>
+
+            <div class="addrecipe-text">
+                <textarea id="recipe" name="recipeBody" class="form-control" rows="3"><p th:text="${recipe.recipeBody}"></p></textarea>
+            </div>
+
+            <button type="submit" name="button" value="update" class="addrecipe-submit">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

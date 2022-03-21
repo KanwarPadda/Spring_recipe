@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recipes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
+
+    <title>All recipes</title>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<div th:insert="fragments/nav-bar.html"></div>
+
+<body>
+
+
+    <div class="container bootstrap snippet">
+        <div class="row">
+            <div class="well search-result">
+                <ol class="breadcrumb">
+                    <li><a href="" class="text-muted"><i class="fa fa-refresh"></i></a></li>
+                    &nbsp; &nbsp;
+                    <li>
+                        <h5>Search</h5>
+                    </li>
+                </ol>
+
+                <form th:action="@{/recipe/search/page/1}" method="GET">
+                    <div class="form-group">
+                        <input required name="keyword" class="form-control" rows="3">
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Go</button>
+                </form>
+            </div>
+
+            <div th:unless="${recipes.empty}">
+                <div th:each="recipe : ${recipes}">
+                    <div id="recipe-prev">
+                        <div class="card" id="img-main">
+                            <div class="card-horizontal">
+                                <div class="card-header">
+
+                                    <h4 class="card-title text-right"><a th:text="${recipe.title}" th:href="@{/recipe/{recipeId}(recipeId = ${recipe.id})}"></a></h4>
+                                </div>
+                                <div class="img-square-wrapper">
+
+                                    <img class="img-responsive" th:src="@{/img/recipe/{file}(file = ${recipe.fileName})}" alt="Card image cap">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="recipe-pag" aria-label="...">
+            <ul class="pagination pagination-sm">
+                <a th:if="${currentPage > 1}" th:href="@{/recipe/search/page/{pageNumber}(pageNumber = ${currentPage-1}, keyword = ${keyword})}"
+                   class="page-item page-link">Previous</a>
+                <li class="page-item disabled"><a class="page-link" href="#" th:text="${currentPage}">1</a></li>
+                <li class="page-item"><a class="page-link" href="#" th:text="${currentPage +1}">2</a></li>
+                <a th:if="${currentPage != totalPages}" th:href="@{/recipe/search/page/{pageNumber}(pageNumber = ${currentPage+1}, keyword = ${keyword})}"
+                   class="page-item page-link">Next</a>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>

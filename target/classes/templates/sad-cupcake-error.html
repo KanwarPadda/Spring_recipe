@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
+</head>
+
+<div th:insert="fragments/nav-bar.html"></div>
+
+<body>
+    <div class="error-page">
+        <img th:src="@{/image/sadcupcake.png}" class="sad-cupcake" alt="big sad">
+        <div class="error-text">
+            <p>Ooops... seems fav something went wrong!<br>Better go back :)</p>
+        </div>
+    </div>
+</body>
+</html>

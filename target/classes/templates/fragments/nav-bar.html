@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<header>
+    <div class="navbar-default">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:if="${user ne null}" th:href="@{/user/profile}" style="color:purple">User Profile</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-auto order-0">
+                <div class="logo-container">
+                    <a class="navbar-brand" th:href="@{/}" href="index.html"><img class="img-responsive" th:src="@{/image/logo.png}"/>
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse w-100 dual-collapse2" th:classappend="${user ne null} ? order-1 : order-3">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" th:unless="${user ne null}" >
+                        <a class="nav-link text" th:href="@{/login}" href="login.html" style="color:purple">Login</a>
+                    </li>
+                    <li class="nav-item" th:unless="${user ne null}">
+                        <a class="nav-link" th:href="@{/register}" style="color:purple">Register</a>
+                    </li>
+
+                    <li class="nav-item" th:if="${user ne null}">
+                        <a class="nav-link" th:href="@{/recipe/new}" style="color:purple">Create a recipe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:if="${user ne null}" th:href="@{/recipe/page/1}" style="color:purple">All Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:if="${user ne null}" th:href="@{/user/logout}" style="color:purple">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+</body>
+</html>

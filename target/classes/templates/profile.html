@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<head>
+    <title>Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <div th:insert="fragments/nav-bar.html"></div>
+
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-lg-8 order-lg-2">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="" data-target="#messages" data-toggle="tab" id="user-tab" class="nav-link active">Your recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#edit" data-toggle="tab" id="user-tab" class="nav-link">Favourite</a>
+                    </li>
+                </ul>
+                <div class="tab-content py-4">
+                    <div class="tab-pane active" id="messages">
+                        <p th:if="${recipes.empty}">No recipes submitted..</p>
+                        <table class="table table-hover table-striped" th:unless="${recipes.empty}">
+                            <tbody>
+                                <tr th:each="recipe : ${recipes}">
+                                    <td>
+                                        <a th:text="${recipe.title}" th:href="@{/recipe/{recipeId}(recipeId = ${recipe.id})}"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Favourite Section to be implemented correctly -->
+                    <div class="tab-pane" id="edit">
+                        <p th:if="${recipes.empty}">No Favourites....</p>
+                        <table class="table table-hover table-striped" th:unless="${recipes.empty}">
+                            <tbody>
+                            <tr th:each="recipe : ${recipes}">
+                                <td>
+                                    <a th:text="${recipe.title}" th:href="@{/recipe/{recipeId}(recipeId = ${recipe.id})}"></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 order-lg-1 text-center sidebar-prof" id="uwu">
+                <img th:src="@{/img/user/{file}(file = ${user.fileName})}" src="//placehold.it/150" class="profile-img mx-auto img-fluid img-circle d-block" alt="avatar">
+
+                <form th:object="${user}" th:action="@{/user/update/image}" method="POST" enctype="multipart/form-data">
+                    <button class="btn btn-secondary" type="submit" name="button" value="delete">Delete current picture</button>
+                    <h6 class="mt-2">Or upload a different photo</h6>
+                    <div class="file-upload-wrapper">
+                        <label class="custom-file">
+                            <input type="file" id="file" name="file" accept="image/*" class="custom-file-input">
+                            <span class="btn btn-secondary" style="margin-top: -3.5rem;">Choose file</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary changeimg-btn" type="submit" name="button" value="update">Change picture</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

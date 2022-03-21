@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" th:href="@{/image/favicon.png}">
+
+    <title>Recipe page</title>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+
+    <link href="/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div th:insert="fragments/nav-bar.html"></div>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="recipe-full">
+                    <div class="recipe-container">
+
+
+                        <h1 class="mt-4" th:text="${recipe.title}"></h1>
+
+
+                        <p class="lead">
+                            <a th:href="@{/user/{username}(username = ${recipe.user.username})}" th:text="${recipe.user.username}">Recipe author</a>
+                        </p>
+                        <div class="float-right" id="rating">
+                            <form th:action="@{{recipeId}/fav/(recipeId = ${recipe.id})}" method="POST">
+                                <button class="fav" type="submit" name="button" value="fav"><img th:src="@{/image/fav.png}"></button>
+                                <span class="favs" th:text="${favs}"></span>
+                            </form>
+                        </div>
+
+                        <div th:if="${user ne null and user.id == recipe.user.id}">
+                            <p><a th:href="@{/recipe/update/{recipeId}(recipeId = ${recipe.id})}">Edit recipe</a> |
+                            <a th:href="@{/recipe/delete/{recipeId}(recipeId = ${recipe.id})}">Delete recipe</a></p>
+                        </div>
+
+
+                        <img class="img-fluid rounded" th:src="@{/img/recipe/{file}(file = ${recipe.fileName})}" alt="">
+
+
+                        <div th:utext="${recipe.recipeBody}"></div>
+
+                    </div>
+                    <div class="card my-4">
+                        <h5 class="card-header">Add a todo:</h5>
+                        <div class="card-body">
+                            <form th:action="@{/recipe/{recipeId}/todo(recipeId = ${recipe.id})}" method="POST">
+                                <div class="form-group">
+                                    <textarea required name="recipetodo" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="recipe-todo" th:unless="${recipetodos.empty}">
+                        <div class="media mb-4" th:each="todo : ${recipetodos}" th:if="${todo.user.id == user.id}">
+                            <img id="todo-pic" class="d-flex mr-3" src="/img/icecream_avatar.png" th:src="@{/img/user/{file}(file = ${todo.user.fileName})}" alt="">
+                            <div class="media-body">
+                                <ul>
+                                <li><p th:text="${todo.recipetodo}">todo here</p></li>
+                                </ul>
+                                <a th:href="@{/recipe/{recipeId}/todo/delete/{todoId}(recipeId = ${recipe.id}, todoId = ${todo.id})}">Delete todo</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <div class="well search-result">
+                <ol class="breadcrumb">
+                    <li><a href="" class="text-muted"><i class="fa fa-refresh"></i></a></li>
+                    &nbsp; &nbsp;
+                    <li>
+                        <h5>Search</h5>
+                    </li>
+                </ol>
+
+                <form th:action="@{/recipe/search/page/1}" method="GET">
+                    <div class="form-group">
+                        <input required name="keyword" class="form-control" rows="3">
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Go</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    </div>
+</body>
+
+</html>
